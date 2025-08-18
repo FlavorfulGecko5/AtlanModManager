@@ -288,6 +288,22 @@ namespace DarkAgesModManager
 
             int deletedCount = 0;
 
+            // Delete mod loader cache.
+            var modLoaderCacheFilePath = Path.Combine(App.GameFolder, "modloader_cache.bin");
+
+            try
+            {
+                if (File.Exists(modLoaderCacheFilePath))
+                {
+                    File.Delete(modLoaderCacheFilePath);
+                    deletedCount++;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error while deleting backup file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             // Delete packagemapspec.json.backup
             var packageMapSpecJsonBackupFilePath = Path.Combine(App.GameFolder, "base", "packagemapspec.json.backup");
 

@@ -86,6 +86,9 @@ namespace DarkAgesModManager
                     return;
                 }
             }
+
+            // Load settings.
+            AdvancedOptionsWindow.LoadModLoaderSettingsFile();
         }
     }
 }
