@@ -274,6 +274,19 @@ namespace DarkAgesModManager
             });
         }
 
+
+        private void UninstallModsButton_Click(object sender, RoutedEventArgs e)
+        {
+            const string prompt = "This will permanently uninstall all idStudio level mods.\n\nYou will need to manually redownload and reinstall these mods to play with them again.\n\nAre you sure you want to continue?";
+
+            if(MessageBoxResult.Yes != MessageBox.Show(prompt, "Uninstall Level Mods", MessageBoxButton.YesNo, MessageBoxImage.Warning)) 
+            {
+                return;
+            }
+
+            App.RunAtlan(true);
+        }
+
         /// <summary>
         /// Reset backups button click event handler
         /// </summary>

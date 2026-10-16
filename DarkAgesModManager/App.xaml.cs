@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -19,6 +20,41 @@ namespace DarkAgesModManager
         /// </summary>
         public static bool IsRestoringBackups;
 
+        public static void RunAtlan(bool UninstallMode)
+        {
+            // Prompt to create the folder if it doesn't exist
+            if (!Utils.CheckModsDirectory("mods"))
+            {
+                return;
+            }
+
+            // If we can't find AtlanModLoader.exe, warn the user
+            if (!File.Exists(Path.Combine(App.GameFolder, "AtlanModLoader.exe")))
+            {
+                MessageBox.Show("Can't find AtlanModLoader.exe\nMake sure that the modding tools are installed.", "Missing tools", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            using (var process = new Process())
+            {
+                var processStartInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = false,
+                    WorkingDirectory = App.GameFolder,
+                    FileName = "AtlanModLoader.exe",
+                    Arguments = UninstallMode ? "--uninstall" : AdvancedOptionsWindow.ModLoaderSettings.GetModLoaderArgumentsString(),
+                };
+
+                process.StartInfo = processStartInfo;
+                process.Start();
+            }
+
+            if(!UninstallMode)
+            {
+                Environment.Exit(0);
+            }
+        }
+
         /// <summary>
         /// Fired on startup
         /// </summary>
@@ -28,9 +64,10 @@ namespace DarkAgesModManager
             base.OnStartup(e);
 
             // Check for game
-            if (!File.Exists(Path.Combine(GameFolder, "DOOMTheDarkAges.exe")))
+            if (!File.Exists(Path.Combine(GameFolder, "DOOMTheDarkAges.exe"))
+                && !File.Exists(Path.Combine(GameFolder, "DOOMEternalx64vk.exe")))
             {
-                MessageBox.Show("Can't find DOOMTheDarkAges.exe\nThis tool needs to be placed in the game folder.", "Missing game", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Can't find valid game executable\nThis tool needs to be placed in the game folder.", "Missing game", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(1);
             }
 
@@ -42,14 +79,15 @@ namespace DarkAgesModManager
             }
 
             // Create the mods folder if it doesn't exist
-            if (!Directory.Exists(Path.Combine(GameFolder, "Mods")))
+            // Atlan uses a lowercase mods folder name, which matters for Linux
+            if (!Directory.Exists(Path.Combine(GameFolder, "mods")))
             {
                 if (MessageBox.Show("This tool needs a mods folder in your game folder to place mods, and this folder is currently missing.\n\n" +
                     "In order to proceed the folder needs to be created, do you want to create it?", "Mods folder", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     try
                     {
-                        Directory.CreateDirectory(Path.Combine(GameFolder, "Mods"));
+                        Directory.CreateDirectory(Path.Combine(GameFolder, "mods"));
                     }
                     catch (Exception ex)
                     {

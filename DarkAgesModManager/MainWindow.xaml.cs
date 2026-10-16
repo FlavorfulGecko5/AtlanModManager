@@ -255,34 +255,7 @@ namespace DarkAgesModManager
         /// <param name="e">event args</param>
         private void InjectAndPlayButton_Click(object sender, RoutedEventArgs e)
         {
-            // Prompt to create the folder if it doesn't exist
-            if (!Utils.CheckModsDirectory("Mods"))
-            {
-                return;
-            }
-
-            // If we can't find AtlanModLoader.exe, warn the user
-            if (!File.Exists(Path.Combine(App.GameFolder, "AtlanModLoader.exe")))
-            {
-                MessageBox.Show("Can't find AtlanModLoader.exe\nMake sure that the modding tools are installed.", "Missing tools", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            using (var process = new Process())
-            {
-                var processStartInfo = new ProcessStartInfo()
-                {
-                    UseShellExecute = false,
-                    WorkingDirectory = App.GameFolder,
-                    FileName = "AtlanModLoader.exe",
-                    Arguments = AdvancedOptionsWindow.ModLoaderSettings.GetModLoaderArgumentsString(),
-                };
-
-                process.StartInfo = processStartInfo;
-                process.Start();
-            }
-
-            Environment.Exit(0);
+            App.RunAtlan(false);
         }
 
         /// <summary>
