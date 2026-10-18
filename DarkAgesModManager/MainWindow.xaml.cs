@@ -70,7 +70,7 @@ namespace DarkAgesModManager
         /// </summary>
         public void InitializeFileSystemWatchers()
         {
-            ModsFolderWatcher = new FileSystemWatcher(Path.Combine(App.GameFolder, "Mods"))
+            ModsFolderWatcher = new FileSystemWatcher(Path.Combine(App.GameFolder, "mods"))
             {
                 EnableRaisingEvents = true,
                 IncludeSubdirectories = false,
@@ -153,7 +153,7 @@ namespace DarkAgesModManager
                 ModListBox.Items.Clear();
 
                 // Enabled mods first
-                foreach (var file in Directory.EnumerateFiles(Path.Combine(App.GameFolder, "Mods"), "*.zip", SearchOption.TopDirectoryOnly))
+                foreach (var file in Directory.EnumerateFiles(Path.Combine(App.GameFolder, "mods"), "*.zip", SearchOption.TopDirectoryOnly))
                 {
                     bool isValid = true;
 
@@ -278,7 +278,7 @@ namespace DarkAgesModManager
         /// <param name="modFilePath">mod file path</param>
         private void DisplayModInformation(Mod mod)
         {
-            var modFilePath = Path.Combine(App.GameFolder, mod.IsEnabled ? "Mods" : "DisabledMods", mod.FileName);
+            var modFilePath = Path.Combine(App.GameFolder, mod.IsEnabled ? "mods" : "DisabledMods", mod.FileName);
 
             if (!File.Exists(modFilePath))
             {
@@ -427,7 +427,7 @@ namespace DarkAgesModManager
             // Determine the source and destination directories depending on
             // the checked / unchecked mods that are selected
             // And move them to the corresponding directories
-            string sourceDir = "Mods";
+            string sourceDir = "mods";
             string destDir = "DisabledMods";
 
             if (ModListBox.SelectedItems != null && ModListBox.SelectedItems.Count > 1)
@@ -439,7 +439,7 @@ namespace DarkAgesModManager
                     if (!(selectedMod as Mod).IsEnabled)
                     {
                         sourceDir = "DisabledMods";
-                        destDir = "Mods";
+                        destDir = "mods";
                         break;
                     }
                 }
@@ -467,8 +467,8 @@ namespace DarkAgesModManager
             else
             {
                 var mod = (sender as CheckBox).DataContext as Mod;
-                sourceDir = mod.IsEnabled ? "DisabledMods" : "Mods";
-                destDir = mod.IsEnabled ? "Mods" : "DisabledMods";
+                sourceDir = mod.IsEnabled ? "DisabledMods" : "mods";
+                destDir = mod.IsEnabled ? "mods" : "DisabledMods";
                 var filePath = Path.Combine(App.GameFolder, sourceDir, mod.FileName);
 
                 if (!File.Exists(filePath))
@@ -539,7 +539,7 @@ namespace DarkAgesModManager
                     continue;
                 }
 
-                if (File.Exists(Path.Combine(App.GameFolder, "Mods", modFileName)))
+                if (File.Exists(Path.Combine(App.GameFolder, "mods", modFileName)))
                 {
                     if (MessageBox.Show($"There is a mod with the name \"{modFileName}\" already installed, do you want to overwrite it?", "Add mods", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
                     {
@@ -549,7 +549,7 @@ namespace DarkAgesModManager
 
                 try
                 {
-                    File.Move(file, Path.Combine(App.GameFolder, "Mods", modFileName));
+                    File.Move(file, Path.Combine(App.GameFolder, "mods", modFileName));
                 }
                 catch (Exception)
                 {
@@ -591,7 +591,7 @@ namespace DarkAgesModManager
             {
                 var modFileName = Path.GetFileName(file);
 
-                if (File.Exists(Path.Combine(App.GameFolder, "Mods", modFileName)))
+                if (File.Exists(Path.Combine(App.GameFolder, "mods", modFileName)))
                 {
                     if (MessageBox.Show($"There is a mod with the name \"{modFileName}\" already installed, do you want to overwrite it?", "Add mods", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.No)
                     {
@@ -601,7 +601,7 @@ namespace DarkAgesModManager
 
                 try
                 {
-                    File.Move(file, Path.Combine(App.GameFolder, "Mods", modFileName));
+                    File.Move(file, Path.Combine(App.GameFolder, "mods", modFileName));
                 }
                 catch (Exception)
                 {
@@ -651,7 +651,7 @@ namespace DarkAgesModManager
             foreach (var item in ModListBox.SelectedItems)
             {
                 var mod = (item as Mod);
-                var path = Path.Combine(App.GameFolder, mod.IsEnabled ? "Mods" : "DisabledMods", mod.FileName);
+                var path = Path.Combine(App.GameFolder, mod.IsEnabled ? "mods" : "DisabledMods", mod.FileName);
 
                 if (!File.Exists(path))
                 {
@@ -728,7 +728,7 @@ namespace DarkAgesModManager
 
             // Determine the source and destination directories depending on the
             // mods that are checked / unchecked, and then enable or disable them
-            string sourceDir = "Mods";
+            string sourceDir = "mods";
             string destDir = "DisabledMods";
 
             if (ModListBox.SelectedItems != null)
@@ -738,7 +738,7 @@ namespace DarkAgesModManager
                     if (!(selectedMod as Mod).IsEnabled)
                     {
                         sourceDir = "DisabledMods";
-                        destDir = "Mods";
+                        destDir = "mods";
                         break;
                     }
                 }
@@ -786,8 +786,8 @@ namespace DarkAgesModManager
             DiscardFolderWatcherEvents = true;
 
             // Determine the source and destination directories and enable/disable all the mods
-            string sourceDir = (sender as CheckBox).IsChecked == true ? "DisabledMods" : "Mods";
-            string destDir = (sender as CheckBox).IsChecked == true ? "Mods" : "DisabledMods";
+            string sourceDir = (sender as CheckBox).IsChecked == true ? "DisabledMods" : "mods";
+            string destDir = (sender as CheckBox).IsChecked == true ? "mods" : "DisabledMods";
 
             foreach (var selectedMod in ModListBox.Items)
             {
@@ -844,7 +844,7 @@ namespace DarkAgesModManager
             DiscardFolderWatcherEvents = true;
 
             // Determine the source and destination directories and enable / disable the mods
-            string sourceDir = "Mods";
+            string sourceDir = "mods";
             string destDir = "DisabledMods";
 
             if (ModListBox.SelectedItems != null)
@@ -854,7 +854,7 @@ namespace DarkAgesModManager
                     if (!(selectedMod as Mod).IsEnabled)
                     {
                         sourceDir = "DisabledMods";
-                        destDir = "Mods";
+                        destDir = "mods";
                         break;
                     }
                 }
@@ -906,7 +906,7 @@ namespace DarkAgesModManager
                         foreach (var item in ModListBox.SelectedItems)
                         {
                             var mod = (item as Mod);
-                            var path = Path.Combine(App.GameFolder, mod.IsEnabled ? "Mods" : "DisabledMods", mod.FileName);
+                            var path = Path.Combine(App.GameFolder, mod.IsEnabled ? "mods" : "DisabledMods", mod.FileName);
 
                             if (!File.Exists(path))
                             {

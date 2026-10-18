@@ -55,12 +55,12 @@ namespace DarkAgesModManager
 
         public static bool CheckBoth_Startup()
         {
-            return CheckModsDirectory("Mods", true) && CheckModsDirectory("DisabledMods", true);
+            return CheckModsDirectory("mods", true) && CheckModsDirectory("DisabledMods", true);
         }
 
         public static bool CheckBoth()
         {
-            return CheckModsDirectory("Mods") && CheckModsDirectory("DisabledMods");
+            return CheckModsDirectory("mods") && CheckModsDirectory("DisabledMods");
         }
 
         public static bool CheckDisabled()
@@ -70,7 +70,7 @@ namespace DarkAgesModManager
 
         public static bool CheckMods()
         {
-            return CheckModsDirectory("Mods");
+            return CheckModsDirectory("mods");
         }
 
     }

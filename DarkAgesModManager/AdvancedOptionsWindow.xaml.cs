@@ -147,7 +147,7 @@ namespace DarkAgesModManager
             // Prompt to create the folder if it doesn't exist
             if (!Utils.CheckMods()) return;
 
-            Process.Start(Path.Combine(App.GameFolder, "Mods"));
+            Process.Start(Path.Combine(App.GameFolder, "mods"));
         }
 
         /// <summary>
