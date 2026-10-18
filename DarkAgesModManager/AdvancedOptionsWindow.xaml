@@ -32,7 +32,7 @@
                 <Label>_Uninstall Level Mods</Label>
             </Button>
             <Button Margin="20 9 15 5" Height="30" Name="CopyTemplateButton" Click="CopyTemplateButton_Click">
-                <Label>_Copy darkagesmod.txt template</Label>
+                <Label Content="_Copy atlanmod.txt template"/>
             </Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" Width="2" Margin="0 15 0 20" HorizontalAlignment="Stretch" IsEnabled="False"/>

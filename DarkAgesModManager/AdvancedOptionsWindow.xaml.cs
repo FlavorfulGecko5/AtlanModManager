@@ -459,8 +459,8 @@ namespace DarkAgesModManager
         /// <param name="e">event args</param>
         private void CopyTemplateButton_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText("modinfo = {\r\n\tname = \"\";\r\n\tauthor = \"\";\r\n\tdescription = \"\";\r\n\tversion = \"1.0\";\r\n\tloadPriority = 0;\r\n\trequiredVersion = 1;\r\n}");
-            MessageBox.Show("darkagesmod.txt template copied to your clipboard.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            Clipboard.SetText("modinfo = {\r\n\tname = \"\";\r\n\tgame = \"\";\r\n\tauthor = \"\";\r\n\tdescription = \"\";\r\n\tversion = \"1.0\";\r\n\tloadPriority = 0;\r\n\trequiredVersion = 1;\r\n}");
+            MessageBox.Show("atlanmod.txt template copied to your clipboard.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
