@@ -23,7 +23,7 @@ namespace DarkAgesModManager
         public static void RunAtlan(bool UninstallMode)
         {
             // Prompt to create the folder if it doesn't exist
-            if (!Utils.CheckModsDirectory("mods"))
+            if (!Utils.CheckMods())
             {
                 return;
             }
@@ -78,51 +78,9 @@ namespace DarkAgesModManager
                 Environment.Exit(1);
             }
 
-            // Create the mods folder if it doesn't exist
-            // Atlan uses a lowercase mods folder name, which matters for Linux
-            if (!Directory.Exists(Path.Combine(GameFolder, "mods")))
+            if(!Utils.CheckBoth_Startup())
             {
-                if (MessageBox.Show("This tool needs a mods folder in your game folder to place mods, and this folder is currently missing.\n\n" +
-                    "In order to proceed the folder needs to be created, do you want to create it?", "Mods folder", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        Directory.CreateDirectory(Path.Combine(GameFolder, "mods"));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error while creating the mods folder\n\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        Environment.Exit(1);
-                    }
-                }
-                else
-                {
-                    Environment.Exit(0);
-                }
-            }
-
-            // Create the disabled mods folder if it doesn't exist
-            if (!Directory.Exists(Path.Combine(GameFolder, "DisabledMods")))
-            {
-                if (MessageBox.Show("This tool needs a disabled mods folder in your game folder to place disabled mods, and this folder is currently missing.\n\n" +
-                    "In order to proceed the folder needs to be created, do you want to create it?", "Disabled mods folder", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        Directory.CreateDirectory(Path.Combine(GameFolder, "DisabledMods"));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error while creating the disabled mods folder\n\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        Environment.Exit(1);
-                        return;
-                    }
-                }
-                else
-                {
-                    Environment.Exit(0);
-                    return;
-                }
+                Environment.Exit(1);
             }
 
             // Load settings.

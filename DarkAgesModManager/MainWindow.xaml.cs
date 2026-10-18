@@ -131,7 +131,7 @@ namespace DarkAgesModManager
         public void FillModsListBox(string changedFile = null, WatcherChangeTypes changeType = WatcherChangeTypes.All)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -232,7 +232,7 @@ namespace DarkAgesModManager
         private void ModListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -419,7 +419,7 @@ namespace DarkAgesModManager
         private void ModCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -523,7 +523,7 @@ namespace DarkAgesModManager
         private void ModListBox_Drop(object sender, DragEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -567,7 +567,7 @@ namespace DarkAgesModManager
         private void InstallModButton_Click(object sender, RoutedEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -619,7 +619,7 @@ namespace DarkAgesModManager
         private void DeleteSelectedButton_Click(object sender, RoutedEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -718,7 +718,7 @@ namespace DarkAgesModManager
         private void EnableDisableSelectedButton_Click(object sender, RoutedEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -777,7 +777,7 @@ namespace DarkAgesModManager
         private void EnableDisableAllCheckbox_Checked(object sender, RoutedEventArgs e)
         {
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
@@ -828,7 +828,7 @@ namespace DarkAgesModManager
             }
 
             // Prompt to create the folders if they don't exist
-            if (!Utils.CheckModsDirectory("Mods") || !Utils.CheckModsDirectory("DisabledMods"))
+            if (!Utils.CheckBoth())
             {
                 return;
             }
