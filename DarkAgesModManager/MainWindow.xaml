@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:darkagesmodmanager="clr-namespace:DarkAgesModManager"
         mc:Ignorable="d"
-        Title="DarkAgesModManager v1.1 by proteh" Height="784" Width="610" ResizeMode="CanMinimize" Icon="Resources\DarkAgesModManager.ico" WindowStartupLocation="CenterScreen">
+        Title="AtlanModManager v1.0 by proteh and FlavorfulGecko5" Height="784" Width="610" ResizeMode="CanMinimize" Icon="Resources\DarkAgesModManager.ico" WindowStartupLocation="CenterScreen">
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
