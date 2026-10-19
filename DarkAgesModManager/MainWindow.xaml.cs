@@ -269,7 +269,7 @@ namespace DarkAgesModManager
             ModVersionTextBlock.Text = "-";
             ModLoaderVersionTextBlock.Text = "-";
             ModLoadPriorityTextBlock.Text = "-";
-            ModMultiplayerSafeLabel.Content = "";
+            ModMultiplayerSafeLabel.Content = "Game: -";
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace DarkAgesModManager
                     }
                     else
                     {
-                        ModMultiplayerSafeLabel.Content = "";
+                        ModMultiplayerSafeLabel.Foreground = Brushes.Black;
                     }
                 });
 
@@ -305,6 +305,10 @@ namespace DarkAgesModManager
                     using (var zipArchive = ZipFile.OpenRead(modFilePath))
                     {
                         var eternalModJsonFile = zipArchive.GetEntry("darkagesmod.txt");
+
+                        if (eternalModJsonFile == null) {
+                            eternalModJsonFile = zipArchive.GetEntry("atlanmod.txt");
+                        }
 
                         if (eternalModJsonFile == null)
                         {
@@ -316,6 +320,7 @@ namespace DarkAgesModManager
                                 ModVersionTextBlock.Text = "Not specified.";
                                 ModLoaderVersionTextBlock.Text = "Unknown.";
                                 ModLoadPriorityTextBlock.Text = "0";
+                                ModMultiplayerSafeLabel.Content = "Game: Not Specified";
                             });
                         }
                         else
@@ -338,6 +343,11 @@ namespace DarkAgesModManager
 
                                 modInfo = new ModInfo();
 
+                                if(eternalModJsonFile.Name == "darkagesmod.txt")
+                                {
+                                    modInfo.Game = "dark ages";
+                                }
+
                                 foreach (var property in declParseResult.DeclFile.Properties)
                                 {
                                     if (!property.Name.Equals("modinfo", StringComparison.InvariantCultureIgnoreCase))
@@ -356,7 +366,12 @@ namespace DarkAgesModManager
                                         {
                                             modInfo.Name = ((DeclPropertyStringValue)p2.Value).Value;
                                         }
-                                        
+
+                                        if (p2.Name.Equals("game", StringComparison.InvariantCultureIgnoreCase) && p2.Value is DeclPropertyStringValue)
+                                        {
+                                            modInfo.Game = ((DeclPropertyStringValue)p2.Value).Value.ToLower();
+                                        }
+
                                         if (p2.Name.Equals("author", StringComparison.InvariantCultureIgnoreCase) && p2.Value is DeclPropertyStringValue)
                                         {
                                             modInfo.Author = ((DeclPropertyStringValue)p2.Value).Value;
@@ -365,6 +380,33 @@ namespace DarkAgesModManager
                                         if (p2.Name.Equals("description", StringComparison.InvariantCultureIgnoreCase) && p2.Value is DeclPropertyStringValue)
                                         {
                                             modInfo.Description = ((DeclPropertyStringValue)p2.Value).Value;
+
+                                            // The description should be the only place we'll reasonably see escape sequences,
+                                            // so there shouldn't be any need to patch this into the decl parser
+                                            StringBuilder escapeFixer = new StringBuilder(modInfo.Description.Length);
+                                            bool escape = false;
+                                            foreach(char c in modInfo.Description)
+                                            {
+                                                if(!escape)
+                                                {
+                                                    if (c == '\\')
+                                                        escape = true;
+                                                    else escapeFixer.Append(c);
+                                                    continue;
+                                                }
+
+                                                escape = false;
+                                                switch(c)
+                                                {
+                                                    case '\\': escapeFixer.Append('\\'); break;
+                                                    case '"': escapeFixer.Append('"'); break;
+                                                    case 't': escapeFixer.Append('\t'); break;
+                                                    case 'n': escapeFixer.Append('\n'); break;
+
+                                                    default: escapeFixer.Append('\\'); escapeFixer.Append(c); break;
+                                                }
+                                            }
+                                            modInfo.Description = escapeFixer.ToString();
                                         }
 
                                         if (p2.Name.Equals("version", StringComparison.InvariantCultureIgnoreCase) && p2.Value is DeclPropertyStringValue)
@@ -399,6 +441,14 @@ namespace DarkAgesModManager
                                     ModVersionTextBlock.Text = modInfo == null || modInfo.Version == null ? "Not specified." : modInfo.Version;
                                     ModLoaderVersionTextBlock.Text = modInfo == null || modInfo.RequiredVersion == 0 ? "Unknown." : modInfo.RequiredVersion.ToString();
                                     ModLoadPriorityTextBlock.Text = modInfo == null || modInfo.LoadPriority == 0 ? "0" : modInfo.LoadPriority.ToString();
+
+                                    if (modInfo == null || modInfo.Game == null || modInfo.Game.Length == 0)
+                                        ModMultiplayerSafeLabel.Content = "Game: Not Specified";
+                                    else if (modInfo.Game.Contains("eternal"))
+                                        ModMultiplayerSafeLabel.Content = "Game: DOOM Eternal";
+                                    else if (modInfo.Game.Contains("dark"))
+                                        ModMultiplayerSafeLabel.Content = "Game: DOOM The Dark Ages";
+                                    else ModMultiplayerSafeLabel.Content = "Game: Unknown";
                                 });
                             }
                         }

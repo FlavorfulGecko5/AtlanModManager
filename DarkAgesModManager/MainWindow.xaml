@@ -112,7 +112,7 @@
                     -
                 </TextBlock>
             </Label>
-            <Label Name="ModMultiplayerSafeLabel" Padding="5 2" FontWeight="Bold" Height="20"></Label>
+            <Label Name="ModMultiplayerSafeLabel" Padding="5 2" Height="20">Game: -</Label>
         </StackPanel>
         <GridSplitter Grid.Column="1" Grid.Row="2" Height="2" HorizontalAlignment="Stretch" IsEnabled="False"/>
         <Grid Grid.Row="3">

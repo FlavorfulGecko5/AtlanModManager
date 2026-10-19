@@ -11,6 +11,11 @@
         public string Name;
 
         /// <summary>
+        /// Game this mod supports
+        /// </summary>
+        public string Game;
+
+        /// <summary>
         /// Mod author
         /// </summary>
         public string Author;
