@@ -552,6 +552,23 @@ namespace DarkAgesModManager
             advancedOptionsWindow.Focus();
         }
 
+        private void GetMultiplayerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(File.Exists(Path.Combine(App.GameFolder, "DOOMEternalx64vk.exe")))
+            {
+                MultiplayerWindow window = new MultiplayerWindow();
+                window.Owner = this;
+                window.Show();
+                window.Focus();
+            }
+            else
+            {
+                string prompt = "DOOM: Eternal multiplayer mods can be downloaded here."
+                    + "\n\nThis menu is not available in other games";
+                MessageBox.Show(prompt, "Multiplayer Mods", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
         /// <summary>
         /// Fired when entering the drag area in the list box
         /// </summary>

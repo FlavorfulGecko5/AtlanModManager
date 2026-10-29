@@ -100,6 +100,12 @@
     <Compile Include="DeclParser\DeclPropertyStringValue.cs" />
     <Compile Include="DeclParser\DeclPropertyValue.cs" />
     <Compile Include="ModLoaderSettings.cs" />
+    <Compile Include="MultiplayerDownloadBox.xaml.cs">
+      <DependentUpon>MultiplayerDownloadBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MultiplayerWindow.xaml.cs">
+      <DependentUpon>MultiplayerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Page Include="AdvancedOptionsWindow.xaml">
       <SubType>Designer</SubType>
@@ -121,6 +127,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MultiplayerDownloadBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MultiplayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -152,6 +166,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DarkAgesModManager.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img_svs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img_coop.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img_invasion.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

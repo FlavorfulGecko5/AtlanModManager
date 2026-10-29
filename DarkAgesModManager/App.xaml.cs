@@ -15,6 +15,17 @@ namespace DarkAgesModManager
         /// </summary>
         public static string GameFolder = ".";
 
+        public static readonly string DirMods = Path.Combine(GameFolder, "mods");
+
+        public static readonly string DirDisabled = Path.Combine(GameFolder, "DisabledMods");
+
+        public const string NameCoop = "Atlan_Coop_Mode.zip";
+
+        public const string NameInvasion = "Atlan_Invasion_Mode.zip";
+
+        public const string NameSVS = "Atlan_Slayer_vs_Slayer.zip";
+
+
         /// <summary>
         /// Determines if the program is restoring the backups or not
         /// </summary>
@@ -35,6 +46,29 @@ namespace DarkAgesModManager
                 return;
             }
 
+            // Safeguard: Ensure the player does not have multiple downloaded multiplayer mods enabled.
+            if(!UninstallMode)
+            {
+                int numMultiplayerMods = 0;
+
+                if (File.Exists(Path.Combine(DirMods, NameCoop)))
+                    numMultiplayerMods++;
+
+                if(File.Exists(Path.Combine(DirMods, NameInvasion)))
+                    numMultiplayerMods++;
+
+                if (File.Exists(Path.Combine(DirMods, NameSVS)))
+                    numMultiplayerMods++;
+
+                if(numMultiplayerMods > 1)
+                {
+                    const string prompt = "Multiplayer gamemode mods conflict with each other and cannot be installed simultaneously!"
+                        + "\nPlease disable all but one of them!";
+                    MessageBox.Show(prompt, "Multiplayer Mod Conflict", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            
             using (var process = new Process())
             {
                 var processStartInfo = new ProcessStartInfo()

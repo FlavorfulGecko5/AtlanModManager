@@ -120,12 +120,15 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Margin="20 15 25 20" Height="30" Name="InjectAndPlayButton" Click="InjectAndPlayButton_Click">
+            <Button Margin="36,15,103,20" Height="30" Name="InjectAndPlayButton" Click="InjectAndPlayButton_Click">
                 <Bold>
                     <Label>_Run mod loader</Label>
                 </Bold>
             </Button>
-            <Button Grid.Column="1" Margin="20 15 25 20" Height="30" Name="AdvancedOptionsButton" Click="AdvancedOptionsButton_Click">
+            <Button Name="GetMultiplayerButton" HorizontalAlignment="Left" Margin="219,15,50,0" VerticalAlignment="Top" Width="168" Grid.ColumnSpan="2" Height="30" Click="GetMultiplayerButton_Click">
+                <Label Content="Download Multiplayer Mods"/>
+            </Button>
+            <Button Grid.Column="1" Margin="114,15,50,20" Height="30" Name="AdvancedOptionsButton" Click="AdvancedOptionsButton_Click">
                 <Label>_Advanced options...</Label>
             </Button>
         </Grid>
