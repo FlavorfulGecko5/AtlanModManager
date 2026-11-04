@@ -100,6 +100,9 @@
     <Compile Include="DeclParser\DeclPropertyStringValue.cs" />
     <Compile Include="DeclParser\DeclPropertyValue.cs" />
     <Compile Include="ModLoaderSettings.cs" />
+    <Compile Include="MultiplayerAboutWindow.xaml.cs">
+      <DependentUpon>MultiplayerAboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MultiplayerDownloadBox.xaml.cs">
       <DependentUpon>MultiplayerDownloadBox.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MultiplayerAboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MultiplayerDownloadBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

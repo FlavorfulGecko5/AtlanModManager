@@ -1,0 +1,108 @@
+﻿<Window x:Class="DarkAgesModManager.MultiplayerAboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DarkAgesModManager"
+        mc:Ignorable="d"
+        Title="MultiplayerAboutWindow" Height="370" Width="510" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="OnLoaded" Closing="OnClosing">
+    <Grid>
+        <RichTextBox Name="MainTextBox" IsReadOnly="True" IsDocumentEnabled="True">
+            <FlowDocument>
+                
+                <Section Name="coop">
+                    <Paragraph FontSize="14">Coop description here
+                        <LineBreak/>
+                        <LineBreak/>
+                        Level add-ons and download mirrors are available on the following pages:
+                        <LineBreak/> <LineBreak/>1. 
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/> <LineBreak/> 2.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/> <LineBreak/> 3.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/> <LineBreak/> 4.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+                    </Paragraph>
+                </Section>
+                
+                
+                <Section Name="invasion">
+                    <Paragraph FontSize="14">INVASION DESCRIPTION HERE
+                        <LineBreak/>
+                        <LineBreak/>
+                        Level add-ons and download mirrors are available on the following pages:
+                        <LineBreak/>
+                        <LineBreak/> 1.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 2.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 3.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 4.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+                    </Paragraph>
+                </Section>
+
+
+                <Section Name="svs">
+                    <Paragraph FontSize="14">SVS DESCRIPTION HERE
+                        <LineBreak/>
+                        <LineBreak/>
+                        Level add-ons and download mirrors are available on the following pages:
+                        <LineBreak/>
+                        <LineBreak/> 1.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 2.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 3.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 4.
+                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.google.com
+                        </Hyperlink>
+                    </Paragraph>
+                </Section>
+                
+            </FlowDocument>
+        </RichTextBox>
+
+    </Grid>
+</Window>

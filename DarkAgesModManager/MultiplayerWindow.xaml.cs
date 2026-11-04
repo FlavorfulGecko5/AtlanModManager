@@ -147,5 +147,30 @@ namespace DarkAgesModManager
             const string url = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/invasion/Invasion_Mode.zip";
             DownloadMod(url, App.NameInvasion, "invasion");
         }
+
+        private void AboutMod(string key, string title)
+        {
+            MultiplayerAboutWindow aboutWindow = new MultiplayerAboutWindow();
+            aboutWindow.Owner = this;
+            aboutWindow.Title = title;
+            aboutWindow.SetModDescription(key);
+            aboutWindow.Show();
+            aboutWindow.Focus();
+        }
+
+        private void Button_AboutCoop_Click(object sender, RoutedEventArgs e)
+        {
+            AboutMod("coop", "About Coop Campaign");
+        }
+
+        private void Button_AboutInvasion_Click(object sender, RoutedEventArgs e)
+        {
+            AboutMod("invasion", "About Invasion Mode");
+        }
+
+        private void Button_AboutSvs_Click(object sender, RoutedEventArgs e)
+        {
+            AboutMod("svs", "About Slayer vs Slayer");
+        }
     }
 }
