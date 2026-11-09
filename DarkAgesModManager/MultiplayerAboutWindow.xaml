@@ -5,98 +5,113 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DarkAgesModManager"
         mc:Ignorable="d"
-        Title="MultiplayerAboutWindow" Height="370" Width="510" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="OnLoaded" Closing="OnClosing">
+        Title="MultiplayerAboutWindow" Height="370" Width="540" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="OnLoaded" Closing="OnClosing">
     <Grid>
         <RichTextBox Name="MainTextBox" IsReadOnly="True" IsDocumentEnabled="True">
             <FlowDocument>
                 
                 <Section Name="coop">
-                    <Paragraph FontSize="14">Coop description here
+                    <Paragraph FontSize="14">Play campign and multiplayer maps with friends. Slayers are fully loaded and should work together to complete combat encounters.
                         <LineBreak/>
                         <LineBreak/>
-                        Level add-ons and download mirrors are available on the following pages:
-                        <LineBreak/> <LineBreak/>1. 
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        Level add-ons and download mirrors are available at:
+                        <LineBreak/> <LineBreak/>1.
+                        <Hyperlink NavigateUri="https://www.nexusmods.com/doometernal/mods/1062" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.nexusmods.com/doometernal/mods/1062
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/> 2.
+                        <Hyperlink NavigateUri="https://drive.google.com/drive/folders/10OVx3KhvGTqCIDNQKBZkP9-cS9IStvHj" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://drive.google.com/drive/folders/10OVx3KhvGTqCIDNQKBZkP9-cS9IStvHj
+                        </Hyperlink>
+
+                        <LineBreak/>
+                        <LineBreak/>
+                        Additional mod mirrors available at:
+
+                        <LineBreak/> <LineBreak/> 1.
+                        <Hyperlink NavigateUri="https://www.moddb.com/mods/co-operative-mode" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.moddb.com/mods/co-operative-mode
                         </Hyperlink>
 
                         <LineBreak/> <LineBreak/> 2.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <Hyperlink NavigateUri="https://gamebanana.com/mods/428523" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://gamebanana.com/mods/428523
                         </Hyperlink>
 
-                        <LineBreak/> <LineBreak/> 3.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
-                        </Hyperlink>
-
-                        <LineBreak/> <LineBreak/> 4.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
-                        </Hyperlink>
                     </Paragraph>
                 </Section>
                 
                 
                 <Section Name="invasion">
-                    <Paragraph FontSize="14">INVASION DESCRIPTION HERE
+                    <Paragraph FontSize="14">Play campaign maps with Demon Players hunting the Slayer. The Slayer must complete all combat encounters. The Demons must kill the Slayer.
                         <LineBreak/>
                         <LineBreak/>
-                        Level add-ons and download mirrors are available on the following pages:
+                        Level add-ons and download mirrors are available at:
                         <LineBreak/>
                         <LineBreak/> 1.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <Hyperlink NavigateUri="https://www.nexusmods.com/doometernal/mods/1103" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.nexusmods.com/doometernal/mods/1103
                         </Hyperlink>
 
                         <LineBreak/>
                         <LineBreak/> 2.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <Hyperlink NavigateUri="https://drive.google.com/drive/folders/10OVx3KhvGTqCIDNQKBZkP9-cS9IStvHj" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://drive.google.com/drive/folders/10OVx3KhvGTqCIDNQKBZkP9-cS9IStvHj
                         </Hyperlink>
 
                         <LineBreak/>
-                        <LineBreak/> 3.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <LineBreak/>
+                        Additional mod mirrors available at:
+
+                        <LineBreak/>
+                        <LineBreak/> 1.
+                        <Hyperlink NavigateUri="https://www.moddb.com/mods/invasion-mode" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.moddb.com/mods/invasion-mode
                         </Hyperlink>
 
                         <LineBreak/>
-                        <LineBreak/> 4.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <LineBreak/> 2.
+                        <Hyperlink NavigateUri="https://gamebanana.com/mods/428528" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://gamebanana.com/mods/428528
                         </Hyperlink>
+
                     </Paragraph>
                 </Section>
 
 
                 <Section Name="svs">
-                    <Paragraph FontSize="14">SVS DESCRIPTION HERE
+                    <Paragraph FontSize="14">Engage in Slayer vs Slayer combat across various maps. Win 5 rounds to claim victory. Farm AI fodder demons and utilize map pickups for resources.
                         <LineBreak/>
                         <LineBreak/>
-                        Level add-ons and download mirrors are available on the following pages:
+                        Level add-ons and download mirrors are available at:
                         <LineBreak/>
                         <LineBreak/> 1.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <Hyperlink NavigateUri="https://www.nexusmods.com/doometernal/mods/1041" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.nexusmods.com/doometernal/mods/1041
                         </Hyperlink>
 
                         <LineBreak/>
                         <LineBreak/> 2.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <Hyperlink NavigateUri="https://drive.google.com/drive/folders/10OVx3KhvGTqCIDNQKBZkP9-cS9IStvHj" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://drive.google.com/drive/folders/10OVx3KhvGTqCIDNQKBZkP9-cS9IStvHj
                         </Hyperlink>
 
                         <LineBreak/>
-                        <LineBreak/> 3.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <LineBreak/>
+                        Additional mod mirrors available at:
+
+                        <LineBreak/>
+                        <LineBreak/> 1.
+                        <Hyperlink NavigateUri="https://www.moddb.com/mods/slayervsslayer" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://www.moddb.com/mods/slayervsslayer
                         </Hyperlink>
 
                         <LineBreak/>
-                        <LineBreak/> 4.
-                        <Hyperlink NavigateUri="https://www.google.com" RequestNavigate="Hyperlink_RequestNavigate">
-                            https://www.google.com
+                        <LineBreak/> 2.
+                        <Hyperlink NavigateUri="https://gamebanana.com/mods/428520" RequestNavigate="Hyperlink_RequestNavigate">
+                            https://gamebanana.com/mods/428520
                         </Hyperlink>
                     </Paragraph>
                 </Section>

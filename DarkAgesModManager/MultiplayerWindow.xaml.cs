@@ -139,7 +139,8 @@ namespace DarkAgesModManager
 
         private void Button_DownloadSVS_Click(object sender, RoutedEventArgs e)
         {
-
+            const string url = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/slayer-vs-slayer/Slayer_vs_Slayer.zip";
+            DownloadMod(url, App.NameSVS, "svs");
         }
 
         private void Button_DownloadInvasion_Click(object sender, RoutedEventArgs e)
