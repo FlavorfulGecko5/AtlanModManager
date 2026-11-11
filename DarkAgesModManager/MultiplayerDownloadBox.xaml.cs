@@ -46,6 +46,34 @@ namespace DarkAgesModManager
             this.Dispatcher.Invoke(() => { this.TextBlockStatus.Text = newLabel; });
         }
 
+        private void DownloadWithProgress(FileStream fstream, Stream downloadStream, CancellationToken cancelToken)
+        {
+            byte[] buffer = new byte[81920];
+
+            int lastPercent = 0;
+            int percent = 0;
+
+            double totalRead = 0;
+            int bytesRead;
+
+            while((bytesRead = downloadStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                if (cancelToken.IsCancellationRequested)
+                    return;
+                fstream.Write(buffer, 0, bytesRead);
+
+                totalRead += bytesRead;
+                percent = (int)((totalRead / m_fileSize) * 100);
+
+                if(percent - lastPercent >= 5)
+                {
+                    lastPercent = percent;
+                    this.Dispatcher.Invoke(() => { TextBlockProgress.Text = $"Progress: {lastPercent}%"; });
+                }
+            }
+            this.Dispatcher.Invoke(() => { TextBlockProgress.Text = "Progress: 100%"; });
+        }
+
         private async void TryDownload()
         {
             FileStream fstream = null;
@@ -79,9 +107,8 @@ namespace DarkAgesModManager
                 downloadStream = await m_httpclient.GetStreamAsync(m_url);
                 fstream = new FileStream(InProgressPath, FileMode.Create, FileAccess.Write);
 
-                // TODO: If we want to have a download progress tracker, we'll
-                // need to replace this function with our own read/write loop
-                await downloadStream.CopyToAsync(fstream, 81920, m_cancelSource.Token);
+                await Task.Run(() => DownloadWithProgress(fstream, downloadStream, m_cancelSource.Token), m_cancelSource.Token);
+                m_cancelSource.Token.ThrowIfCancellationRequested();
 
                 await fstream.FlushAsync(m_cancelSource.Token);
                 fstream.Close();
@@ -96,7 +123,7 @@ namespace DarkAgesModManager
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    TextBlockStatus.Text = "Download Complete";
+                    TextBlockStatus.Text = $"Download Complete: File saved to \n{m_destination}";
                     ButtonCancelDownload.Content = "Okay";
                 });
             }
