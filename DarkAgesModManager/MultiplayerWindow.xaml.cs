@@ -153,6 +153,11 @@ namespace DarkAgesModManager
         // Returns true if we can proceed with launching the game
         public static bool CheckForUpdates(string modname)
         {
+            if(!AdvancedOptionsWindow.ModLoaderSettings.CheckForModUpdates)
+            {
+                return true;
+            }
+
             MultiplayerBackend backend = new MultiplayerBackend();
             backend.SetMod(modname);
 

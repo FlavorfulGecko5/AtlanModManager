@@ -11,6 +11,7 @@ namespace DarkAgesModManager
         public bool AutoLaunchGame { get; set; } = true;
         public bool EnableVerboseLogging { get; set; } = false;
         public bool IgnorePatcherErrors { get; set; } = false;
+        public bool CheckForModUpdates { get; set;} = true;
 
         public string GetModLoaderArgumentsString()
         {
@@ -41,14 +42,10 @@ namespace DarkAgesModManager
         /// <returns>true if the two mod loader settings objects are equal, false otherwise</returns>
         public bool IsEqualTo(ModLoaderSettings injectorSettings)
         {
-            if (EnableVerboseLogging == injectorSettings.EnableVerboseLogging &&
-                AutoLaunchGame == injectorSettings.AutoLaunchGame &&
-                IgnorePatcherErrors == injectorSettings.IgnorePatcherErrors)
-            {
-                return true;
-            }
-
-            return false;
+            return EnableVerboseLogging == injectorSettings.EnableVerboseLogging
+                && AutoLaunchGame == injectorSettings.AutoLaunchGame
+                && IgnorePatcherErrors == injectorSettings.IgnorePatcherErrors
+                && CheckForModUpdates == injectorSettings.CheckForModUpdates;
         }
 
         /// <summary>
@@ -62,6 +59,7 @@ namespace DarkAgesModManager
                 EnableVerboseLogging = EnableVerboseLogging,
                 AutoLaunchGame = AutoLaunchGame,
                 IgnorePatcherErrors = IgnorePatcherErrors,
+                CheckForModUpdates = CheckForModUpdates
             };
 
             return clone;

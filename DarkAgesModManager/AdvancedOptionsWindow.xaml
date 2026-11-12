@@ -48,6 +48,7 @@
                 <CheckBox IsChecked="{Binding ModLoaderSettings.AutoLaunchGame}" Name="AutoLaunchGameCheckBox">Launch the game automatically after loading mods</CheckBox>
                 <CheckBox IsChecked="{Binding ModLoaderSettings.IgnorePatcherErrors}" Name="IgnorePatcherErrors">Ignore game EXE patching errors</CheckBox>
                 <CheckBox IsChecked="{Binding ModLoaderSettings.EnableVerboseLogging}" Name="VerboseLoggingCheckBox">Enable verbose logging</CheckBox>
+                <CheckBox IsChecked="{Binding ModLoaderSettings.CheckForModUpdates}" Name="CheckUpdatesCheckbox">Automatically check for multiplayer mod updates</CheckBox>
             </StackPanel>
             <Button Margin="0 0 20 20" DockPanel.Dock="Bottom" Grid.Row="1" IsEnabled="False" Name="SaveInjectorSettingsButton" Click="SaveInjectorSettingsButton_Click">
                 <Label>_Save mod injector settings</Label>

@@ -35,6 +35,7 @@ namespace DarkAgesModManager
             VerboseLoggingCheckBox.DataContext = this;
             AutoLaunchGameCheckBox.DataContext = this;
             IgnorePatcherErrors.DataContext = this;
+            CheckUpdatesCheckbox.DataContext = this;
 
             // Load the current mod loader settings file
             LoadModLoaderSettingsFile();
@@ -46,6 +47,8 @@ namespace DarkAgesModManager
             AutoLaunchGameCheckBox.Unchecked += InjectorSettingsControlChanged;
             IgnorePatcherErrors.Checked += InjectorSettingsControlChanged;
             IgnorePatcherErrors.Unchecked += InjectorSettingsControlChanged;
+            CheckUpdatesCheckbox.Checked += InjectorSettingsControlChanged;
+            CheckUpdatesCheckbox.Unchecked += InjectorSettingsControlChanged;
 
             Loaded += AdvancedOptionsWindow_Loaded;
             Closing += AdvancedOptionsWindow_Closing;
@@ -99,6 +102,9 @@ namespace DarkAgesModManager
                         break;
                     case ":FORCELOAD":
                         ModLoaderSettings.IgnorePatcherErrors = settingValue;
+                        break;
+                    case ":CHECKMODUPDATES":
+                        ModLoaderSettings.CheckForModUpdates = settingValue;
                         break;
                     default:
                         break;
@@ -398,6 +404,7 @@ namespace DarkAgesModManager
             settingsStringBuilder.AppendLine($":VERBOSE={(ModLoaderSettings.EnableVerboseLogging ? "1" : "0")}");
             settingsStringBuilder.AppendLine($":NOLAUNCH={(ModLoaderSettings.AutoLaunchGame ? "0" : "1")}");
             settingsStringBuilder.AppendLine($":FORCELOAD={(ModLoaderSettings.IgnorePatcherErrors ? "1" : "0")}");
+            settingsStringBuilder.AppendLine($":CHECKMODUPDATES={(ModLoaderSettings.CheckForModUpdates ? "1" : "0")}");
 
             try
             {
