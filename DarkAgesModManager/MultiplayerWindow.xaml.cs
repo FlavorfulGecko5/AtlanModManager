@@ -20,11 +20,23 @@ using System.Threading;
 
 namespace DarkAgesModManager
 {
+    public struct MultiplayerHistoryEntry
+    {
+        public long filetime;
+        public long updateChecktime;
+
+        public MultiplayerHistoryEntry(long p_filetime = 0, long p_updateCheckTime = 0)
+        {
+            filetime = p_filetime;
+            updateChecktime = p_updateCheckTime;
+        }
+    }
+
     public class MultiplayerDownloadHistory
     {
         const string filename = "ModLoaderDownloads.txt";
 
-        Dictionary<string, long> history = new Dictionary<string, long>();
+        Dictionary<string, MultiplayerHistoryEntry> history = new Dictionary<string, MultiplayerHistoryEntry>();
 
         public MultiplayerDownloadHistory()
         {
@@ -36,15 +48,17 @@ namespace DarkAgesModManager
             {
                 string[] tokens = line.Split('=');
 
-                if (tokens.Length != 2)
+                if (tokens.Length != 3)
                     continue;
 
-                long timestamp;
+                MultiplayerHistoryEntry entry;
 
-                if (!long.TryParse(tokens[1], out timestamp))
+                if (!long.TryParse(tokens[1], out entry.filetime))
+                    continue;
+                if (!long.TryParse(tokens[2], out entry.updateChecktime))
                     continue;
 
-                history[tokens[0]] = timestamp;
+                history[tokens[0]] = entry;
             }
         }
 
@@ -52,29 +66,143 @@ namespace DarkAgesModManager
         {
             if(history.ContainsKey(key))
             {
-                return history[key] == serverTimestamp;
+                return history[key].filetime == serverTimestamp;
             }
 
             return false;
         }
 
-        public void UpdateAndSave(string newKey, long newTimestamp)
+        public bool ShouldCheckForUpdates(string key)
         {
-            history[newKey] = newTimestamp;
+            if(history.ContainsKey(key))
+            {
+                long tickrange = DateTime.UtcNow.Ticks - history[key].updateChecktime;
+                double daysSinceLastDownload = tickrange / TimeSpan.TicksPerDay;
+
+                return daysSinceLastDownload >= 3.0;
+            }
+            return true;
+        }
+
+
+        public void UpdateAndSave(string newKey, MultiplayerHistoryEntry newEntry)
+        {
+            history[newKey] = newEntry;
             string historyfile = Path.Combine(App.GameFolder, filename);
 
             using(FileStream fstream = new FileStream(historyfile, FileMode.Create, FileAccess.Write))
             {
                 using(StreamWriter sw = new StreamWriter(fstream))
                 {
-                    foreach (KeyValuePair<string, long> pair in history)
+                    foreach (KeyValuePair<string, MultiplayerHistoryEntry> pair in history)
                     {
                         sw.Write(pair.Key);
                         sw.Write('=');
-                        sw.Write(pair.Value);
+                        sw.Write(pair.Value.filetime);
+                        sw.Write('=');
+                        sw.Write(pair.Value.updateChecktime);
                         sw.Write('\n');
                     }
                 }
+            }
+        }
+    }
+
+    public class MultiplayerBackend
+    {
+        private const string url_coop = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/co-op/Co-operative_Mode.zip";
+        private const string url_invasion = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/invasion/Invasion_Mode.zip";
+        private const string url_svs = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/slayer-vs-slayer/Slayer_vs_Slayer.zip";
+
+
+        public HttpClient httpclient;
+        public MultiplayerDownloadHistory history;
+
+        public string historykey;   // Mod name NOT INCLUDING it's containg folder.
+        public string url;
+        public string destination;  // Containing folder + mod name
+
+        public MultiplayerBackend()
+        {
+            httpclient = new HttpClient();
+            httpclient.Timeout = new System.TimeSpan(0, 0, 10);
+            history = new MultiplayerDownloadHistory();
+        }
+
+        public void SetMod(string p_modname)
+        {
+            historykey = p_modname;
+
+            switch (p_modname)
+            {
+                case App.NameCoop: url = url_coop; break;
+                case App.NameInvasion: url = url_invasion; break;
+                case App.NameSVS: url = url_svs; break;
+
+                default: throw new ArgumentException("MultiplayerBackend::SetMod Cannot resolve mod zip to URL");
+            }
+
+            // TODO EDGE CASE: Mod in both Mods and Disabled dir?
+            destination = Path.Combine(App.DirDisabled, p_modname);
+            if (!File.Exists(destination))
+            {
+                destination = Path.Combine(App.DirMods, p_modname);
+            }
+        }
+
+        // Returns true if we can proceed with launching the game
+        public static bool CheckForUpdates(string modname)
+        {
+            MultiplayerBackend backend = new MultiplayerBackend();
+            backend.SetMod(modname);
+
+            if (!backend.history.ShouldCheckForUpdates(backend.historykey))
+                return true;
+
+            // Async so we don't block the main thread
+            // todo how to move this out of the way
+            //Task.Run(() => { MessageBox.Show("Checking for mod updates..."); });
+
+            try
+            {
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Head, backend.url);
+                Task<HttpResponseMessage> responseTask = backend.httpclient.SendAsync(request);
+                responseTask.Wait(5000);
+
+                if (!responseTask.IsCompleted)
+                {
+                    throw new Exception("Update checker timed out");
+                }
+
+                long servertimestamp = responseTask.Result.Content.Headers.LastModified.Value.UtcTicks;
+
+                if (backend.history.TimestampMatches(backend.historykey, servertimestamp))
+                {
+                    backend.history.UpdateAndSave(backend.historykey, new MultiplayerHistoryEntry(servertimestamp, DateTime.UtcNow.Ticks));
+                    return true;
+                }
+
+                string prompt = $"An update is available for {modname}\n\nDownload now?";
+                if (MessageBoxResult.Yes != MessageBox.Show(prompt, "Multiplayer Mod Updated", MessageBoxButton.YesNo, MessageBoxImage.Warning))
+                {
+                    return true;
+                }
+
+                MultiplayerWindow window = new MultiplayerWindow(backend);
+                window.Owner = Application.Current.MainWindow;
+                window.Show();
+                window.Focus();
+                window.LaunchDownloader();
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                string prompt = $"Failed to check for mod updates.\n"
+                    + $"Error: {e.Message} {(e.InnerException == null ? "" : e.InnerException.Message)}"
+                    + "\n\nLaunch the game anyways?";
+
+                return MessageBoxResult.Yes == MessageBox.Show(prompt, "Update Check Failure", MessageBoxButton.YesNo, MessageBoxImage.Error);
             }
         }
     }
@@ -84,18 +212,14 @@ namespace DarkAgesModManager
     /// </summary>
     public partial class MultiplayerWindow : Window
     {
-        private HttpClient m_httpclient;
 
-        private MultiplayerDownloadHistory m_history;
+        MultiplayerBackend backend;
 
 
-        public MultiplayerWindow()
+        public MultiplayerWindow( MultiplayerBackend p_backend)
         {
             InitializeComponent();
-
-            m_httpclient = new HttpClient();
-            m_httpclient.Timeout = new System.TimeSpan(0, 0, 10);
-            m_history = new MultiplayerDownloadHistory();
+            backend = p_backend;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -109,44 +233,37 @@ namespace DarkAgesModManager
             Owner = null;
         }
 
-        private void DownloadMod(string url, string modName, string historyKey)
+        public void LaunchDownloader()
         {
-            if (!Utils.CheckBoth())
-                return;
-
-            string destination = Path.Combine(App.DirDisabled, modName);
-            if(!File.Exists(destination))
-            {
-                destination = Path.Combine(App.DirMods, modName);
-            }
-            
             MultiplayerDownloadBox window = new MultiplayerDownloadBox();
             window.Owner = this;
-            window.m_httpclient = m_httpclient;
-            window.m_url = url;
-            window.m_destination = destination;
-            window.m_history = m_history;
-            window.m_historyKey = historyKey;
+            window.backend = this.backend;
             window.Show();
             window.Focus();
         }
 
+        private void DownloadMod( string modName)
+        {
+            if(!Utils.CheckBoth())
+                return;
+
+            backend.SetMod(modName);
+            LaunchDownloader();
+        }
+
         private void Button_DownloadCoop_Click(object sender, RoutedEventArgs e)
         {
-            const string url = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/co-op/Co-operative_Mode.zip";
-            DownloadMod(url, App.NameCoop, "coop");
+            DownloadMod(App.NameCoop);
         }
 
         private void Button_DownloadSVS_Click(object sender, RoutedEventArgs e)
         {
-            const string url = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/slayer-vs-slayer/Slayer_vs_Slayer.zip";
-            DownloadMod(url, App.NameSVS, "svs");
+            DownloadMod(App.NameSVS);
         }
 
         private void Button_DownloadInvasion_Click(object sender, RoutedEventArgs e)
         {
-            const string url = "https://github.com/Velserus/doom-eternal-modded-multiplayer/releases/download/invasion/Invasion_Mode.zip";
-            DownloadMod(url, App.NameInvasion, "invasion");
+            DownloadMod(App.NameInvasion);
         }
 
         private void AboutMod(string key, string title)

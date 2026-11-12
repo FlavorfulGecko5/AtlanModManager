@@ -49,26 +49,44 @@ namespace DarkAgesModManager
             // Safeguard: Ensure the player does not have multiple downloaded multiplayer mods enabled.
             if(!UninstallMode)
             {
+                string chosenMod = "";
                 int numMultiplayerMods = 0;
 
                 if (File.Exists(Path.Combine(DirMods, NameCoop)))
+                {
+                    chosenMod = NameCoop;
                     numMultiplayerMods++;
+                }
 
-                if(File.Exists(Path.Combine(DirMods, NameInvasion)))
+                if (File.Exists(Path.Combine(DirMods, NameInvasion)))
+                {
+                    chosenMod = NameInvasion;
                     numMultiplayerMods++;
+                }
 
                 if (File.Exists(Path.Combine(DirMods, NameSVS)))
+                {
+                    chosenMod = NameSVS;
                     numMultiplayerMods++;
+                }
 
-                if(numMultiplayerMods > 1)
+                if (numMultiplayerMods > 1)
                 {
                     const string prompt = "Multiplayer gamemode mods conflict with each other and cannot be installed simultaneously!"
                         + "\nPlease disable all but one of them!";
                     MessageBox.Show(prompt, "Multiplayer Mod Conflict", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+
+                if(chosenMod.Length > 0)
+                {
+                    if(!MultiplayerBackend.CheckForUpdates(chosenMod))
+                    {
+                        return;
+                    }
+                }
             }
-            
+
             using (var process = new Process())
             {
                 var processStartInfo = new ProcessStartInfo()

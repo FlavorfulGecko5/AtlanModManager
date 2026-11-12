@@ -556,7 +556,7 @@ namespace DarkAgesModManager
         {
             if(File.Exists(Path.Combine(App.GameFolder, "DOOMEternalx64vk.exe")))
             {
-                MultiplayerWindow window = new MultiplayerWindow();
+                MultiplayerWindow window = new MultiplayerWindow(new MultiplayerBackend());
                 window.Owner = this;
                 window.Show();
                 window.Focus();

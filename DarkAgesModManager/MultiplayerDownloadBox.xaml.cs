@@ -27,11 +27,7 @@ namespace DarkAgesModManager
 
         /* These variables are passed to the window by it's creator */
 
-        public HttpClient m_httpclient;
-        public MultiplayerDownloadHistory m_history;
-        public string m_historyKey;
-        public string m_url;
-        public string m_destination;
+        public MultiplayerBackend backend;
 
 
         /* Variables owned by window */
@@ -80,14 +76,14 @@ namespace DarkAgesModManager
             Stream downloadStream = null;
             try
             {
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Head, m_url);
-                HttpResponseMessage response = await m_httpclient.SendAsync(request, m_cancelSource.Token);
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Head, backend.url);
+                HttpResponseMessage response = await backend.httpclient.SendAsync(request, m_cancelSource.Token);
                 response.EnsureSuccessStatusCode();
 
                 m_fileSize = response.Content.Headers.ContentLength.Value;
-                m_modtime = response.Content.Headers.LastModified.Value.Ticks;
+                m_modtime = response.Content.Headers.LastModified.Value.UtcTicks;
 
-                if(m_history.TimestampMatches(m_historyKey, m_modtime))
+                if(backend.history.TimestampMatches(backend.historykey, m_modtime))
                 {
                     string prompt = "You've already downloaded the latest version of this file!"
                         + "\n\nClick 'Yes' to re-download this file anyways."
@@ -104,7 +100,7 @@ namespace DarkAgesModManager
 
                 UpdateLabel($"Downloading {(m_fileSize / 1000000)} megabyte file");
 
-                downloadStream = await m_httpclient.GetStreamAsync(m_url);
+                downloadStream = await backend.httpclient.GetStreamAsync(backend.url);
                 fstream = new FileStream(InProgressPath, FileMode.Create, FileAccess.Write);
 
                 await Task.Run(() => DownloadWithProgress(fstream, downloadStream, m_cancelSource.Token), m_cancelSource.Token);
@@ -115,15 +111,15 @@ namespace DarkAgesModManager
                 downloadStream.Close();
 
 
-                if (File.Exists(m_destination))
-                    File.Delete(m_destination);
-                File.Move(InProgressPath, m_destination);
+                if (File.Exists(backend.destination))
+                    File.Delete(backend.destination);
+                File.Move(InProgressPath, backend.destination);
 
-                m_history.UpdateAndSave(m_historyKey, m_modtime);
+                backend.history.UpdateAndSave(backend.historykey, new MultiplayerHistoryEntry(m_modtime, DateTime.UtcNow.Ticks));
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    TextBlockStatus.Text = $"Download Complete: File saved to \n{m_destination}";
+                    TextBlockStatus.Text = $"Download Complete: File saved to \n{backend.destination}";
                     ButtonCancelDownload.Content = "Okay";
                 });
             }
